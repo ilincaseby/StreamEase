@@ -1,7 +1,10 @@
 package io;
 
+import pages.MainPage;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Stack;
 
 public class UserData {
     private CredentialsData credentials;
@@ -31,6 +34,7 @@ public class UserData {
     private MovieData seeDetailsMovie;
     private String page;
     private ArrayList<String> favGenres;
+    private Stack<String> pageSt;
     public static final int FIFTEEN = 15;
 
     public UserData() {
@@ -40,9 +44,18 @@ public class UserData {
         ratedMovies = new ArrayList<>();
         currentMovieList = new ArrayList<>();
         favGenres = new ArrayList<>();
+        pageSt = new Stack<>();
         seeDetailsMovie = null;
         page = null;
         allTime = new ArrayList<>();
+    }
+
+    public Stack<String> getPageSt() {
+        return pageSt;
+    }
+
+    public void setPageSt(Stack<String> pageSt) {
+        this.pageSt = pageSt;
     }
 
     public ArrayList<Notifications> getNotifications() {

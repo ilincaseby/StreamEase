@@ -1,10 +1,12 @@
 package commandcontrol;
 
 import actionmaker.FilterActionClass;
+import administrator.AdminDataBase;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import factory.BlackBox;
 import factory.HomepageExistentAccountGenerator;
 import factory.HomepageNoAccountGenerator;
+import helper.BackAndRecommend;
 import io.InputAll;
 import io.UserData;
 import pages.HomepageExistentAccount;
@@ -30,6 +32,14 @@ public final class DecideDependingInput {
 
         for (int i = 0; i < input.getActions().size(); ++i) {
             switch (input.getActions().get(i).getType()) {
+                case "database" -> {
+                    switch (input.getActions().get(i).getFeature()) {
+                        case "add" -> AdminDataBase.addMovie(input, output, input.getActions().get(i));
+                        case "delete" -> AdminDataBase.deletedMovie(input, output, input.getActions().get(i));
+                    }
+                }
+                case "back" -> page = BackAndRecommend.backToOldPage(user, page, output);
+                case "subscribed" -> user = page.log(visitor, input.getActions().get(i), output, user, input);
                 case "change page" -> {
                     page = page.accept(visitor, input.getActions().get(i), output, user, input);
                     if (user != null) {
@@ -85,6 +95,7 @@ public final class DecideDependingInput {
                 default -> visitor.setOutput("Error", new ArrayList<>(), null, output);
             }
         }
+        BackAndRecommend.recommendMovie(user, output, input);
     }
 
     /**

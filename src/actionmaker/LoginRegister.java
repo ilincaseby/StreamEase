@@ -41,6 +41,7 @@ public abstract class LoginRegister extends ChangePageClass implements Visitor {
         }
         setOutput(null, new ArrayList<>(), userToRet, output);
         userToRet.setPage("homepage");
+        userToRet.getPageSt().add("homepage");
         return userToRet;
     }
 
@@ -68,7 +69,7 @@ public abstract class LoginRegister extends ChangePageClass implements Visitor {
         userToRet.setPage("homepage");
         userToRet.setMoviesAllTime(input.getMovies());
         setOutput(null, new ArrayList<>(), userToRet, output);
-
+        userToRet.getPageSt().add("homepage");
         return userToRet;
     }
 

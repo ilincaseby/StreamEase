@@ -25,7 +25,7 @@ public final class FilterActionClass extends ActionsOnFilms implements Visitor {
     @Override
     public UserData doFeatures(final SeeDetails currentPage, final ActionsData action,
                                final ArrayNode output, final InputAll input, final UserData user) {
-
+        SelectMovies.subscribe(currentPage, action, output, input, user);
         return user;
     }
 

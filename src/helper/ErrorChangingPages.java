@@ -9,6 +9,7 @@ import io.UserData;
 import pages.*;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public final class ErrorChangingPages {
     /**
@@ -50,11 +51,13 @@ public final class ErrorChangingPages {
         switch (action.getPage()) {
             case "logout" -> {
                 user.setPage(null);
+                user.setPageSt(new Stack<>());
                 generator = new HomepageNoAccountGenerator();
             }
             case "register" -> {
                 visitor.setOutput("Error", new ArrayList<>(), null, output);
                 user.setPage(null);
+                user.setPageSt(new Stack<>());
                 generator = new HomepageNoAccountGenerator();
             }
             case "movies" -> {
@@ -62,10 +65,12 @@ public final class ErrorChangingPages {
                 visitor.setOutput(null, user.getCurrentMovieList(), user, output);
                 user.setPage("movies");
                 generator = new MoviePageGenerator();
+                user.getPageSt().add("movies");
             }
             case "upgrades" -> {
                 user.setPage("upgrades");
                 generator = new UpgradesGenerator();
+                user.getPageSt().add("upgrades");
             }
             default -> {
                 visitor.setOutput("Error", new ArrayList<>(), null, output);
@@ -85,12 +90,14 @@ public final class ErrorChangingPages {
         switch (action.getPage()) {
             case "logout" -> {
                 user.setPage(null);
+                user.setPageSt(new Stack<>());
                 generator = new HomepageNoAccountGenerator();
             }
             case "movies" -> {
                 user.setCurrentMovieList(user.getAllTime());
                 visitor.setOutput(null, user.getCurrentMovieList(), user, output);
                 generator = new MoviePageGenerator();
+                user.getPageSt().add("movies");
             }
             case "see details" -> {
                 user.setSeeDetailsMovie(UserData.findByNameIsIn(user.getCurrentMovieList(),
@@ -105,16 +112,19 @@ public final class ErrorChangingPages {
                 visitor.setOutput(null, movieAvailable, user, output);
                 user.setPage("see details");
                 generator = new SeeDetailsGenerator();
+                user.getPageSt().add("see details");
             }
             case "register" -> {
                 visitor.setOutput("Error", new ArrayList<>(), null, output);
                 user.setPage(null);
+                user.setPageSt(new Stack<>());
                 generator = new HomepageNoAccountGenerator();
             }
             case "homepage" -> {
                 user.setPage("homepage");
                 visitor.setOutput(null, new ArrayList<>(), user, output);
                 generator = new HomepageExistentAccountGenerator();
+                user.getPageSt().add("homepage");
             }
             default -> {
                 visitor.setOutput("Error", new ArrayList<>(), null, output);
@@ -134,11 +144,13 @@ public final class ErrorChangingPages {
         switch (action.getPage()) {
             case "logout" -> {
                 user.setPage(null);
+                user.setPageSt(new Stack<>());
                 generator = new HomepageNoAccountGenerator();
             }
             case "register" -> {
                 visitor.setOutput("Error", new ArrayList<>(), null, output);
                 user.setPage(null);
+                user.setPageSt(new Stack<>());
                 generator = new HomepageNoAccountGenerator();
             }
             case "movies" -> {
@@ -146,10 +158,12 @@ public final class ErrorChangingPages {
                 visitor.setOutput(null, user.getCurrentMovieList(), user, output);
                 user.setPage("movies");
                 generator = new MoviePageGenerator();
+                user.getPageSt().add("movies");
             }
             case "homepage" -> {
                 user.setPage("homepage");
                 generator = new HomepageExistentAccountGenerator();
+                user.getPageSt().add("homepage");
             }
             default -> {
                 visitor.setOutput("Error", new ArrayList<>(), null, output);
@@ -169,11 +183,13 @@ public final class ErrorChangingPages {
         switch (action.getPage()) {
             case "logout" -> {
                 user.setPage(null);
+                user.setPageSt(new Stack<>());
                 generator = new HomepageNoAccountGenerator();
             }
             case "register" -> {
                 visitor.setOutput("Error", new ArrayList<>(), null, output);
                 user.setPage(null);
+                user.setPageSt(new Stack<>());
                 generator = new HomepageNoAccountGenerator();
             }
             case "movies" -> {
@@ -181,14 +197,17 @@ public final class ErrorChangingPages {
                 visitor.setOutput(null, user.getCurrentMovieList(), user, output);
                 user.setPage("movies");
                 generator = new MoviePageGenerator();
+                user.getPageSt().add("movies");
             }
             case "homepage" -> {
                 user.setPage("homepage");
                 generator = new HomepageExistentAccountGenerator();
+                user.getPageSt().add("homepage");
             }
             case "upgrades" -> {
                 user.setPage("upgrades");
                 generator = new UpgradesGenerator();
+                user.getPageSt().add("upgrades");
             }
             default -> {
                 visitor.setOutput("Error", new ArrayList<>(), null, output);
