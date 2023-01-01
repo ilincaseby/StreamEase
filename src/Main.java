@@ -7,7 +7,12 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.File;
 import java.io.IOException;
 
-public class Main {
+public final class Main {
+
+    /**
+     * Private constructor for utility classes
+     * **/
+    private Main() { }
     /**
      * Main method
      * **/

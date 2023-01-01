@@ -35,7 +35,7 @@ public final class SelectMovies {
             return;
         }
         if (user.getFavGenres().stream().filter(genre -> action.
-                getSubscribedGenre().equals(genre)).findFirst().orElse(null) == null) {
+                getSubscribedGenre().equals(genre)).findFirst().orElse(null) != null) {
             visitor.setOutput("Error", new ArrayList<>(), null, output);
             return;
         }
@@ -226,7 +226,7 @@ public final class SelectMovies {
      * is contained by a film
      * **/
 
-    private static boolean containGenre(final MovieData movie, String genre) {
+    private static boolean containGenre(final MovieData movie, final String genre) {
         return movie.getGenres().contains(genre);
     }
 }

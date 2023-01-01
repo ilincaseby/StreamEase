@@ -13,6 +13,7 @@ public class MovieData {
     private int numLikes = 0;
     private int rating = 0;
     private int numRatings = 0;
+    private int numPeopleRatings = 0;
     public static final int HUNDRED = 100;
 
     /**
@@ -27,6 +28,20 @@ public class MovieData {
             return false;
         }
         return Objects.equals(getName(), movieData.getName());
+    }
+
+    /**
+     * Getter
+     * **/
+    public int getNumPeopleRatings() {
+        return numPeopleRatings;
+    }
+
+    /**
+     * Setter
+     * **/
+    public void setNumPeopleRatings(final int numPeopleRatings) {
+        this.numPeopleRatings = numPeopleRatings;
     }
 
     /**

@@ -1,7 +1,5 @@
 package io;
 
-import pages.MainPage;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Stack;
@@ -38,6 +36,7 @@ public class UserData {
     public static final int FIFTEEN = 15;
 
     public UserData() {
+        notifications = new ArrayList<>();
         purchasedMovies = new ArrayList<>();
         watchedMovies = new ArrayList<>();
         likedMovies = new ArrayList<>();
@@ -50,27 +49,45 @@ public class UserData {
         allTime = new ArrayList<>();
     }
 
+    /**
+     * Getter
+     * **/
     public Stack<String> getPageSt() {
         return pageSt;
     }
 
-    public void setPageSt(Stack<String> pageSt) {
+    /**
+     * Setter
+     * **/
+    public void setPageSt(final Stack<String> pageSt) {
         this.pageSt = pageSt;
     }
 
+    /**
+     * Getter
+     * **/
     public ArrayList<Notifications> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(ArrayList<Notifications> notifications) {
+    /**
+     * Setter
+     * **/
+    public void setNotifications(final ArrayList<Notifications> notifications) {
         this.notifications = notifications;
     }
 
+    /**
+     * Getter
+     * **/
     public ArrayList<String> getFavGenres() {
         return favGenres;
     }
 
-    public void setFavGenres(ArrayList<String> favGenres) {
+    /**
+     * Setter
+     * **/
+    public void setFavGenres(final ArrayList<String> favGenres) {
         this.favGenres = favGenres;
     }
 
@@ -266,7 +283,11 @@ public class UserData {
         this.credentials = credentials;
     }
 
-    public void addAndNotify(MovieData movie) {
+    /**
+     * Notify a user about an added movie
+     * which contains a subscribed genre
+     * **/
+    public void addAndNotify(final MovieData movie) {
         if (movie.getCountriesBanned().stream().filter(country -> this.getCredentials().
                 getCountry().equals(country)).findFirst().orElse(null) != null) {
             return;
@@ -282,11 +303,16 @@ public class UserData {
         }
     }
 
-    public void deleteAndNotify(String title) {
-        if (this.allTime.stream().filter(movie -> movie.getName().equals(title)).findFirst().orElse(null) == null) {
+    /**
+     * Method to notify a user that a movie is deleted
+     * **/
+    public void deleteAndNotify(final String title) {
+        if (this.allTime.stream().filter(movie -> movie.getName().equals(title)).
+                findFirst().orElse(null) == null) {
             return;
         }
-        if (this.purchasedMovies.stream().filter(movie -> movie.getName().equals(title)).findFirst().orElse(null) != null) {
+        if (this.purchasedMovies.stream().filter(movie -> movie.getName().equals(title)).
+                findFirst().orElse(null) != null) {
             Notifications notifications = new Notifications(title, "DELETE");
             this.notifications.add(notifications);
             if (this.credentials.getAccountType().equals("standard")) {

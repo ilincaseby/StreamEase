@@ -30,8 +30,10 @@ public class MainPage implements Visitable {
                         final UserData user, final InputAll input) {
         Visitor filterActionClass = FilterActionClass.getInstance();
         filterActionClass.setOutput("Error", new ArrayList<>(), null, output);
-        if (action.getFeature().equals("register")) {
-            return null;
+        if (action.getFeature() != null) {
+            if (action.getFeature().equals("register")) {
+                return null;
+            }
         }
         return user;
     }

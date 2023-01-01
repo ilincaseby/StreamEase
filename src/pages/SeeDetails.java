@@ -15,6 +15,10 @@ public class SeeDetails extends Movies {
         return visitor.changePage(this, action, output, user);
     }
 
+    /**
+     * Method for subscription to a specific
+     * genre
+     * **/
     public UserData log(final Visitor visitor, final ActionsData action, final ArrayNode output,
                         final UserData user, final InputAll input) {
         return visitor.doFeatures(this, action, output, input, user);

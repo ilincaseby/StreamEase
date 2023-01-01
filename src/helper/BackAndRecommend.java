@@ -12,7 +12,6 @@ import pages.Visitor;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Map;
 
 public final class BackAndRecommend {
     /**
@@ -21,7 +20,8 @@ public final class BackAndRecommend {
      * **/
     private BackAndRecommend() { }
 
-    public static MainPage backToOldPage(final UserData user, final MainPage actualPage, final ArrayNode output) {
+    public static MainPage backToOldPage(final UserData user, final MainPage actualPage,
+                                         final ArrayNode output) {
         Visitor visitor = FilterActionClass.getInstance();
         if (user == null) {
             visitor.setOutput("Error", new ArrayList<>(), null, output);
@@ -59,27 +59,39 @@ public final class BackAndRecommend {
         return generator.orderPage();
     }
 
-    public static void recommendMovie(final UserData user, final ArrayNode output, final InputAll input) {
-        if (user == null)
+    /**
+     * Method that implements the algorithm for recommending
+     * a movie to the user and also push the movie to
+     * notifications queue
+     * **/
+    public static void recommendMovie(final UserData user, final ArrayNode output,
+                                      final InputAll input) {
+        if (user == null) {
             return;
-        if (user.getCredentials().getAccountType().equals("standard"))
+        }
+        if (user.getCredentials().getAccountType().equals("standard")) {
             return;
+        }
         Visitor visitor = FilterActionClass.getInstance();
         ArrayList<GenreLikes> listOfGenres = new ArrayList<>();
         for (int i = 0; i < user.getLikedMovies().size(); ++i) {
             for (int j = 0; j < user.getLikedMovies().get(i).getGenres().size(); ++j) {
                 int finalI = i;
                 int finalJ = j;
-                GenreLikes aux = listOfGenres.stream().filter(gl -> gl.getGenre().equals(user.getLikedMovies().get(finalI).getGenres().get(finalJ))).findFirst().orElse(null);
+                GenreLikes aux = listOfGenres.stream().filter(gl -> gl.getGenre().equals(user.
+                        getLikedMovies().get(finalI).getGenres().get(finalJ))).findFirst().
+                        orElse(null);
                 if (aux == null) {
-                    GenreLikes topG = new GenreLikes(1, user.getLikedMovies().get(i).getGenres().get(j));
+                    GenreLikes topG = new GenreLikes(1, user.getLikedMovies().get(i).
+                            getGenres().get(j));
                     listOfGenres.add(topG);
                     continue;
                 }
                 aux.setNumLikes(aux.getNumLikes() + 1);
             }
         }
-        listOfGenres.sort(Comparator.comparingInt(GenreLikes::getNumLikes).reversed().thenComparing((o1, o2) -> o1.getGenre().compareTo(o2.getGenre())));
+        listOfGenres.sort(Comparator.comparingInt(GenreLikes::getNumLikes).reversed().
+                thenComparing((o1, o2) -> o1.getGenre().compareTo(o2.getGenre())));
         user.setMoviesForUser(input.getMovies());
         user.getCurrentMovieList().sort(Comparator.comparingInt(MovieData::getNumLikes).reversed());
         for (int i = 0; i < listOfGenres.size(); ++i) {
@@ -87,8 +99,10 @@ public final class BackAndRecommend {
                 int finalI = i;
                 if (user.getCurrentMovieList().get(j).getGenres().stream().
                         filter(genre -> genre.equals(listOfGenres.get(finalI).getGenre())).
-                        findFirst().orElse(null) != null) {
-                    Notifications notifications = new Notifications(user.getCurrentMovieList().get(j).getName(), "Recommendation");
+                        findFirst().orElse(null) != null && !user.getWatchedMovies().
+                        contains(user.getCurrentMovieList().get(j))) {
+                    Notifications notifications = new Notifications(user.getCurrentMovieList().
+                            get(j).getName(), "Recommendation");
                     user.getNotifications().add(notifications);
                     visitor.setOutput(null, null, user, output);
                     return;
@@ -105,7 +119,7 @@ class GenreLikes {
     private int numLikes;
     private String genre;
 
-    public GenreLikes(int numLikes, String genre) {
+    public GenreLikes(final int numLikes, final String genre) {
         this.numLikes = numLikes;
         this.genre = genre;
     }
@@ -114,7 +128,7 @@ class GenreLikes {
         return numLikes;
     }
 
-    public void setNumLikes(int numLikes) {
+    public void setNumLikes(final int numLikes) {
         this.numLikes = numLikes;
     }
 
@@ -122,7 +136,7 @@ class GenreLikes {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(final String genre) {
         this.genre = genre;
     }
 }

@@ -34,12 +34,18 @@ public final class DecideDependingInput {
             switch (input.getActions().get(i).getType()) {
                 case "database" -> {
                     switch (input.getActions().get(i).getFeature()) {
-                        case "add" -> AdminDataBase.addMovie(input, output, input.getActions().get(i));
-                        case "delete" -> AdminDataBase.deletedMovie(input, output, input.getActions().get(i));
+                        case "add" -> AdminDataBase.addMovie(input, output,
+                                input.getActions().get(i));
+                        default -> AdminDataBase.deletedMovie(input, output,
+                                input.getActions().get(i));
                     }
                 }
-                case "back" -> page = BackAndRecommend.backToOldPage(user, page, output);
-                case "subscribed" -> user = page.log(visitor, input.getActions().get(i), output, user, input);
+                case "back" -> {
+                    MainPage auxPage = BackAndRecommend.backToOldPage(user, page, output);
+                    page = auxPage;
+                }
+                case "subscribe" -> user = page.log(visitor,
+                        input.getActions().get(i), output, user, input);
                 case "change page" -> {
                     page = page.accept(visitor, input.getActions().get(i), output, user, input);
                     if (user != null) {

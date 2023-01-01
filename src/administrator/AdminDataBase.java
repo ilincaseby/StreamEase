@@ -18,7 +18,8 @@ public final class AdminDataBase {
     /**
      * method to add a movie
      * **/
-    public static void addMovie(InputAll input, ArrayNode output, ActionsData action) {
+    public static void addMovie(final InputAll input, final ArrayNode output,
+                                final ActionsData action) {
         Visitor visitor = FilterActionClass.getInstance();
         if (input.getMovies().stream().filter(movie -> action.getAddedMovie().getName().
                 equals(movie.getName())).findFirst().orElse(null) != null) {
@@ -35,7 +36,8 @@ public final class AdminDataBase {
      * method to delete a certain
      * movie being given the title
      * **/
-    public static void deletedMovie(InputAll input, ArrayNode output, ActionsData action) {
+    public static void deletedMovie(final InputAll input, final ArrayNode output,
+                                    final ActionsData action) {
         Visitor visitor = FilterActionClass.getInstance();
         if (input.getMovies().stream().filter(movie -> action.getDeletedMovie().
                 equals(movie.getName())).findFirst().orElse(null) == null) {

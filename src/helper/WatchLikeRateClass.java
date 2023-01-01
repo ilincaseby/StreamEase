@@ -26,15 +26,18 @@ public final class WatchLikeRateClass {
         if (!isOkToContinue) {
             return;
         }
-        if (user.getSeeDetailsMovie().equals(UserData.findByNameIsIn(user.getWatchedMovies(),
+//        if (user.getSeeDetailsMovie().equals(UserData.findByNameIsIn(user.getWatchedMovies(),
+//                user.getSeeDetailsMovie().getName()))) {
+//            visitor.setOutput("Error", new ArrayList<>(), null, output);
+//            return;
+//        }
+        if (!user.getSeeDetailsMovie().equals(UserData.findByNameIsIn(user.getWatchedMovies(),
                 user.getSeeDetailsMovie().getName()))) {
-            visitor.setOutput("Error", new ArrayList<>(), null, output);
-            return;
+            user.getWatchedMovies().add(user.getSeeDetailsMovie());
+            ArrayList<MovieData> movie = new ArrayList<>();
+            movie.add(user.getSeeDetailsMovie());
+            visitor.setOutput(null, movie, user, output);
         }
-        user.getWatchedMovies().add(user.getSeeDetailsMovie());
-        ArrayList<MovieData> movie = new ArrayList<>();
-        movie.add(user.getSeeDetailsMovie());
-        visitor.setOutput(null, movie, user, output);
     }
 
     /**
@@ -69,16 +72,21 @@ public final class WatchLikeRateClass {
         if (!isOkToContinue) {
             return;
         }
-        if (user.getSeeDetailsMovie().equals(UserData.findByNameIsIn(user.getRatedMovies(),
-                user.getSeeDetailsMovie().getName()))) {
-            visitor.setOutput("Error", new ArrayList<>(), null, output);
-            return;
-        }
+//        if (user.getSeeDetailsMovie().equals(UserData.findByNameIsIn(user.getRatedMovies(),
+//                user.getSeeDetailsMovie().getName()))) {
+//            visitor.setOutput("Error", new ArrayList<>(), null, output);
+//            return;
+//        }
         if (action.getRate() > FIVE || action.getRate() < 0) {
             visitor.setOutput("Error", new ArrayList<>(), null, output);
             return;
         }
-        user.getRatedMovies().add(user.getSeeDetailsMovie());
+        if (!user.getSeeDetailsMovie().equals(UserData.findByNameIsIn(user.getRatedMovies(),
+                user.getSeeDetailsMovie().getName()))) {
+            user.getRatedMovies().add(user.getSeeDetailsMovie());
+            user.getSeeDetailsMovie().setNumPeopleRatings(user.getSeeDetailsMovie().
+                    getNumPeopleRatings() + 1);
+        }
         user.getSeeDetailsMovie().setNumRatings(user.getSeeDetailsMovie().getNumRatings() + 1);
         user.getSeeDetailsMovie().setRating(
                 user.getSeeDetailsMovie().getRating() + action.getRate());

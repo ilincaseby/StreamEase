@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import helper.ErrorChangingPages;
 import io.ActionsData;
 import io.MovieData;
+import io.Notifications;
 import io.UserData;
 import pages.*;
 
@@ -75,11 +76,14 @@ public abstract class ChangePageClass implements Visitor {
                           final UserData user, final ArrayNode output) {
         ObjectNode node = (new ObjectMapper()).createObjectNode();
         node.put("error", error);
-        ArrayNode currentMovieList = (new ObjectMapper()).createArrayNode();
         if (moviesList != null) {
+            ArrayNode currentMovieList = (new ObjectMapper()).createArrayNode();
             addMovieToOutput(moviesList, currentMovieList);
+            node.set("currentMoviesList", currentMovieList);
         }
-        node.set("currentMoviesList", currentMovieList);
+        if (moviesList == null) {
+            node.put("currentMoviesList", (String) null);
+        }
         if (user == null) {
             node.put("currentUser", (String) null);
             output.add(node);
@@ -107,8 +111,21 @@ public abstract class ChangePageClass implements Visitor {
         ArrayNode rated = (new ObjectMapper()).createArrayNode();
         addMovieToOutput(user.getRatedMovies(), rated);
         userNode.set("ratedMovies", rated);
+        ArrayNode outNotifications = (new ObjectMapper()).createArrayNode();
+        addNotification(user.getNotifications(), outNotifications);
+        userNode.set("notifications", outNotifications);
         node.set("currentUser", userNode);
         output.add(node);
+    }
+
+    private void addNotification(final ArrayList<Notifications> notifications,
+                                 final ArrayNode outNotifications) {
+        for (int i = 0; i < notifications.size(); ++i) {
+            ObjectNode newNode = (new ObjectMapper()).createObjectNode();
+            newNode.put("movieName", notifications.get(i).getMovieName());
+            newNode.put("message", notifications.get(i).getMessage());
+            outNotifications.add(newNode);
+        }
     }
 
     /**
@@ -119,7 +136,7 @@ public abstract class ChangePageClass implements Visitor {
         for (int i = 0; i < moviesList.size(); ++i) {
             ObjectNode newNode = (new ObjectMapper()).createObjectNode();
             newNode.put("name", moviesList.get(i).getName());
-            newNode.put("year", moviesList.get(i).getYear());
+            newNode.put("year", String.valueOf(moviesList.get(i).getYear()));
             newNode.put("duration", moviesList.get(i).getDuration());
             ArrayNode genres = (new ObjectMapper()).createArrayNode();
             for (int j = 0; j < moviesList.get(i).getGenres().size(); ++j) {
@@ -138,7 +155,7 @@ public abstract class ChangePageClass implements Visitor {
             newNode.set("countriesBanned", countriesBanned);
             newNode.put("numLikes", moviesList.get(i).getNumLikes());
             newNode.put("rating", moviesList.get(i).getFinalRating());
-            newNode.put("numRatings", moviesList.get(i).getNumRatings());
+            newNode.put("numRatings", moviesList.get(i).getNumPeopleRatings());
             currentMovieList.add(newNode);
         }
     }

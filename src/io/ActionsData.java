@@ -14,27 +14,45 @@ public class ActionsData {
     private FilterData filters;
     private String subscribedGenre;
 
+    /**
+     * Getter
+     * **/
     public MovieData getAddedMovie() {
         return addedMovie;
     }
 
-    public void setAddedMovie(MovieData addedMovie) {
+    /**
+     * Setter
+     * **/
+    public void setAddedMovie(final MovieData addedMovie) {
         this.addedMovie = addedMovie;
     }
 
+    /**
+     * Getter
+     * **/
     public String getDeletedMovie() {
         return deletedMovie;
     }
 
-    public void setDeletedMovie(String deletedMovie) {
+    /**
+     * Setter
+     * **/
+    public void setDeletedMovie(final String deletedMovie) {
         this.deletedMovie = deletedMovie;
     }
 
+    /**
+     * Getter
+     * **/
     public String getSubscribedGenre() {
         return subscribedGenre;
     }
 
-    public void setSubscribedGenre(String subscribedGenre) {
+    /**
+     * Setter
+     * **/
+    public void setSubscribedGenre(final String subscribedGenre) {
         this.subscribedGenre = subscribedGenre;
     }
 
