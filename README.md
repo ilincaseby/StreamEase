@@ -1,4 +1,4 @@
-# POO-TV Project Stage 1 Readme
+# POO-TV Project Readme
 #### Ilinca Sebastian-Ionut 321CA
 
 ## Short Description
