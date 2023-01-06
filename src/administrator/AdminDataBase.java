@@ -7,19 +7,15 @@ import io.InputAll;
 import pages.Visitor;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public final class AdminDataBase {
-    /**
-     * Private constructor for utility
-     * classes
-     * **/
-    private AdminDataBase() { }
-
+public final class AdminDataBase extends Observable {
     /**
      * method to add a movie
      * **/
-    public static void addMovie(final InputAll input, final ArrayNode output,
-                                final ActionsData action) {
+    public void addMovie(final InputAll input, final ArrayNode output,
+                         final ActionsData action) {
         Visitor visitor = FilterActionClass.getInstance();
         if (input.getMovies().stream().filter(movie -> action.getAddedMovie().getName().
                 equals(movie.getName())).findFirst().orElse(null) != null) {
@@ -27,8 +23,16 @@ public final class AdminDataBase {
             return;
         }
         input.getMovies().add(action.getAddedMovie());
+        setChanged();
+        notifyObservers(action.getAddedMovie());
+    }
+
+    /**
+     * Make all the users observe changes about movie list
+     * **/
+    public void addObserversToWatch(final InputAll input) {
         for (int i = 0; i < input.getUsers().size(); ++i) {
-            input.getUsers().get(i).addAndNotify(action.getAddedMovie());
+            addObserver(input.getUsers().get(i));
         }
     }
 
@@ -36,7 +40,7 @@ public final class AdminDataBase {
      * method to delete a certain
      * movie being given the title
      * **/
-    public static void deletedMovie(final InputAll input, final ArrayNode output,
+    public void deletedMovie(final InputAll input, final ArrayNode output,
                                     final ActionsData action) {
         Visitor visitor = FilterActionClass.getInstance();
         if (input.getMovies().stream().filter(movie -> action.getDeletedMovie().

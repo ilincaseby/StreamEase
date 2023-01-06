@@ -26,18 +26,13 @@ public final class WatchLikeRateClass {
         if (!isOkToContinue) {
             return;
         }
-//        if (user.getSeeDetailsMovie().equals(UserData.findByNameIsIn(user.getWatchedMovies(),
-//                user.getSeeDetailsMovie().getName()))) {
-//            visitor.setOutput("Error", new ArrayList<>(), null, output);
-//            return;
-//        }
         if (!user.getSeeDetailsMovie().equals(UserData.findByNameIsIn(user.getWatchedMovies(),
                 user.getSeeDetailsMovie().getName()))) {
             user.getWatchedMovies().add(user.getSeeDetailsMovie());
-            ArrayList<MovieData> movie = new ArrayList<>();
-            movie.add(user.getSeeDetailsMovie());
-            visitor.setOutput(null, movie, user, output);
         }
+        ArrayList<MovieData> movie = new ArrayList<>();
+        movie.add(user.getSeeDetailsMovie());
+        visitor.setOutput(null, movie, user, output);
     }
 
     /**

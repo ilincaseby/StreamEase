@@ -1,10 +1,8 @@
 package io;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Stack;
+import java.util.*;
 
-public class UserData {
+public class UserData implements Observer {
     private CredentialsData credentials;
 
     /**
@@ -287,7 +285,9 @@ public class UserData {
      * Notify a user about an added movie
      * which contains a subscribed genre
      * **/
-    public void addAndNotify(final MovieData movie) {
+    @Override
+    public void update(final Observable o, final Object arg) {
+        MovieData movie = (MovieData) arg;
         if (movie.getCountriesBanned().stream().filter(country -> this.getCredentials().
                 getCountry().equals(country)).findFirst().orElse(null) != null) {
             return;

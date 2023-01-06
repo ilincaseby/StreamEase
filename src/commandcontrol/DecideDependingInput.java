@@ -29,14 +29,15 @@ public final class DecideDependingInput {
         UserData user = null;
         MainPage page = new HomepageNoAccount();
         Visitor visitor = FilterActionClass.getInstance();
-
+        AdminDataBase adminDataBase = new AdminDataBase();
+        adminDataBase.addObserversToWatch(input);
         for (int i = 0; i < input.getActions().size(); ++i) {
             switch (input.getActions().get(i).getType()) {
                 case "database" -> {
                     switch (input.getActions().get(i).getFeature()) {
-                        case "add" -> AdminDataBase.addMovie(input, output,
+                        case "add" -> adminDataBase.addMovie(input, output,
                                 input.getActions().get(i));
-                        default -> AdminDataBase.deletedMovie(input, output,
+                        default -> adminDataBase.deletedMovie(input, output,
                                 input.getActions().get(i));
                     }
                 }
