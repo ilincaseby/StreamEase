@@ -1,4 +1,4 @@
-# POO-TV Project Readme
+# StreamEase Project Readme
 #### Ilinca Sebastian-Ionut 321CA
 
 ## Short Description
